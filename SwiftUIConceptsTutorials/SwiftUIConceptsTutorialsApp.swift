@@ -14,7 +14,16 @@ struct SwiftUIConceptsTutorialsApp: App {
     // including WindowGroup, Window, DocumentGroup, and Settings.
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            TabView {
+                ContentView()
+                    .tabItem {
+                        Label("Journal", systemImage: "book")
+                    }
+                SettingsView()
+                    .tabItem {
+                        Label("Settings", systemImage: "gear")
+                    }
+            }
         }
     }
 }
