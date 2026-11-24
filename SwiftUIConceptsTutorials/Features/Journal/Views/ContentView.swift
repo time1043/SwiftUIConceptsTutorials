@@ -8,23 +8,29 @@
 import SwiftUI
 
 struct ContentView: View {
+    @StateObject private var journal = Journal()
+    
     var body: some View {
-        // LazyVStack
-        // VStack, HStack, ZStack
-        VStack {
-            // Image
-            // init(systemName:)
-            // https://developer.apple.com/documentation/swiftui/image/scale
-            // https://developer.apple.com/documentation/swiftui/color
-            Image(systemName: "globe")
-                .imageScale(.large) // .large, Image.Scale.large;
-                .foregroundStyle(.tint) // .tint, TintShapeStyle(); .red, Color.red
-            Text("Hello, world!")
+        NavigationStack {
+            List(journal.entries) { entry in
+                NavigationLink(value: entry) {
+                    JournalEntryListItem(journalEntry: entry)
+                }
+            }
+            .navigationDestination(for: JournalEntry.self) { entry in
+                JournalEntryView(journalEntry: entry)
+            }
+            .navigationTitle("Journal")
+            .toolbar {
+                ToolbarItem {
+                    Button {
+                        journal.addSampleEntry()
+                    } label: {
+                        Image(systemName: "plus")
+                    }
+                }
+            }
         }
-        .background(.red)
-        .padding([.top, .bottom, .trailing, .leading], 20)
-        .border(.gray)
-        // https://developer.apple.com/documentation/swiftui/view/padding(_:_:)
     }
 }
 
